@@ -1,0 +1,99 @@
+---
+- name: Installer les paquets de sécurité
+  ansible.builtin.apt:
+    name: "{{ security_packages }}"
+    state: present
+    update_cache: true
+  become: true
+
+- name: Déployer la configuration SSH durcie
+  ansible.builtin.template:
+    src: 99-ssh-hardening.conf.j2
+    dest: /etc/ssh/sshd_config.d/99-ssh-hardening.conf
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: Restart ssh
+
+- name: Vérifier la configuration SSH
+  ansible.builtin.command: sshd -t
+  become: true
+  changed_when: false
+
+- name: Déployer la configuration fail2ban
+  ansible.builtin.template:
+    src: jail.local.j2
+    dest: /etc/fail2ban/jail.local
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: Restart fail2ban
+
+- name: Activer et démarrer fail2ban
+  ansible.builtin.service:
+    name: fail2ban
+    state: started
+    enabled: true
+  become: true
+
+- name: Désactiver rpcbind si présent
+  ansible.builtin.service:
+    name: rpcbind
+    state: stopped
+    enabled: false
+  become: true
+  failed_when: false
+
+- name: Désactiver rpcbind.socket si présent
+  ansible.builtin.service:
+    name: rpcbind.socket
+    state: stopped
+    enabled: false
+  become: true
+  failed_when: false
+
+- name: Réinitialiser UFW
+  community.general.ufw:
+    state: reset
+  become: true
+
+- name: Politique par défaut entrante deny
+  community.general.ufw:
+    direction: incoming
+    policy: deny
+  become: true
+
+- name: Politique par défaut sortante allow
+  community.general.ufw:
+    direction: outgoing
+    policy: allow
+  become: true
+
+- name: Autoriser SSH depuis IP admin
+  community.general.ufw:
+    rule: allow
+    port: "{{ ssh_port }}"
+    proto: tcp
+    from_ip: "{{ admin_public_ip_cidr }}"
+  become: true
+
+- name: Autoriser HTTP public
+  community.general.ufw:
+    rule: allow
+    port: "80"
+    proto: tcp
+  become: true
+
+- name: Autoriser HTTPS public
+  community.general.ufw:
+    rule: allow
+    port: "443"
+    proto: tcp
+  become: true
+
+- name: Activer UFW
+  community.general.ufw:
+    state: enabled
+  become: true

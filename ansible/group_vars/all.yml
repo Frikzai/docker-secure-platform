@@ -18,3 +18,10 @@ base_packages:
 
 docker_users:
   - ubuntu
+
+ssh_port: 22
+admin_public_ip_cidr: "88.178.119.146/32"
+
+security_packages:
+  - ufw
+  - fail2ban

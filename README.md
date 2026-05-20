@@ -57,6 +57,12 @@ La plateforme doit permettre de démontrer :
 - interface admin protégée par un token 
 - Vaultwarden non exposé directement sur Internet 
 - Vaultwarden ajouté dans Homepage et Uptime Kuma
+- sécurisation système de la VM avec UFW 
+- SSH limité à l'adresse IP administrateur 
+- fail2ban actif pour protéger SSH 
+- durcissement SSH appliqué 
+- rpcbind désactivé 
+- seuls les ports 22, 80 et 443 sont nécessaires
 ---
 
 ## Stack technique
@@ -119,5 +125,20 @@ Il est accessible via :
 ```text
 https://frikzai-vault.duckdns.org
 ```
+
+---
+
+## Sécurité système
+
+La VM est sécurisée avec plusieurs couches :
+
+- Security List Oracle Cloud 
+- firewall local UFW 
+- SSH par clé uniquement 
+- connexion root désactivée 
+- authentification par mot de passe désactivée 
+- fail2ban activé sur SSH 
+- port 81 fermé après configuration de Nginx Proxy Manager 
+- services applicatifs accessibles uniquement via HTTPS
 
 ---
