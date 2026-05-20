@@ -42,6 +42,10 @@ La plateforme doit permettre de démontrer :
 - Portainer accessible en HTTPS via Nginx Proxy Manager 
 - Portainer non exposé directement sur Internet 
 - gestion Docker accessible depuis une interface web sécurisée
+- Uptime Kuma déployé avec Docker Compose 
+- Uptime Kuma accessible en HTTPS via Nginx Proxy Manager 
+- supervision de Nginx Proxy Manager, Portainer et Uptime Kuma 
+- Uptime Kuma non exposé directement sur Internet
 ---
 
 ## Stack technique
@@ -68,3 +72,17 @@ Il est accessible via :
 ```text
 https://frikzai-portainer.duckdns.org
 ```
+
+---
+
+### Uptime Kuma
+
+Uptime Kuma est déployé derrière Nginx Proxy Manager.
+
+Il est accessible via :
+
+```text
+https://frikzai-uptime.duckdns.org
+```
+
+---

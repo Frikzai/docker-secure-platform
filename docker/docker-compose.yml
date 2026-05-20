@@ -27,6 +27,17 @@ services:
     networks:
       - proxy
 
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    restart: unless-stopped
+    environment:
+      TZ: "${TZ}"
+    volumes:
+      - "${UPTIME_KUMA_DATA_PATH}:/app/data"
+    networks:
+      - proxy
+
 networks:
   proxy:
     name: proxy
