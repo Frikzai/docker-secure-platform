@@ -4,71 +4,26 @@
 
 Plateforme Docker sécurisée déployée sur Oracle Cloud Free Tier.
 
-L'objectif du projet est de mettre en place une plateforme auto-hébergée basée sur Docker, avec un reverse proxy HTTPS, une exposition contrôlée des services, une supervision applicative et une stratégie de sauvegarde.
-
-Ce projet est orienté administration Linux, Docker, sécurité, reverse proxy et exploitation de services auto-hébergés.
+Ce projet met en place une plateforme auto-hébergée avec Docker Compose, Nginx Proxy Manager, HTTPS Let's Encrypt, supervision, sauvegardes automatisées et durcissement système.
 
 ---
 
-## Objectif du projet
+## Objectif
 
-Le but est de déployer une VM Oracle Cloud qui héberge plusieurs services Docker accessibles proprement via HTTPS.
+L'objectif est de déployer une plateforme Docker complète et sécurisée sur une VM publique Oracle Cloud.
 
-La plateforme doit permettre de démontrer :
+Le projet démontre :
 
 - l'administration d'une VM Linux publique 
-- l'installation automatisée de Docker avec Ansible 
-- l'utilisation de Docker Compose 
-- la mise en place d'un reverse proxy avec Nginx Proxy Manager 
-- la gestion de certificats HTTPS avec Let's Encrypt 
-- la configuration DNS avec DuckDNS 
-- la sécurisation des ports exposés 
-- la préparation d'une future supervision et sauvegarde
+- le provisionnement cloud avec Terraform 
+- l'installation automatisée avec Ansible 
+- la gestion de services avec Docker Compose 
+- la mise en place d'un reverse proxy HTTPS 
+- la supervision de services web 
+- la sauvegarde et la restauration de volumes Docker 
+- la sécurisation d'un serveur exposé sur Internet 
+- la validation automatique du projet avec GitHub Actions
 
----
-
-## État actuel du projet
-
-À ce stade, les éléments suivants sont fonctionnels :
-
-- VM Oracle Cloud Free Tier créée avec Terraform 
-- accès SSH opérationnel 
-- Docker installé via Ansible 
-- Docker Compose installé 
-- dossier applicatif `/opt/docker-secure-platform` créé 
-- Nginx Proxy Manager déployé avec Docker Compose 
-- sous-domaine DuckDNS configuré pour Nginx Proxy Manager 
-- accès HTTPS à Nginx Proxy Manager fonctionnel 
-- port d'administration `81` commenté côté Terraform après configuration
-- Portainer déployé avec Docker Compose 
-- Portainer accessible en HTTPS via Nginx Proxy Manager 
-- Portainer non exposé directement sur Internet 
-- gestion Docker accessible depuis une interface web sécurisée
-- Uptime Kuma déployé avec Docker Compose 
-- Uptime Kuma accessible en HTTPS via Nginx Proxy Manager 
-- supervision de Nginx Proxy Manager, Portainer et Uptime Kuma 
-- Uptime Kuma non exposé directement sur Internet
-- Homepage déployé avec Docker Compose 
-- Homepage accessible en HTTPS via Nginx Proxy Manager 
-- dashboard centralisant les liens vers les services 
-- Homepage supervisé avec Uptime Kuma 
-- Homepage non exposé directement sur Internet
-- Vaultwarden déployé avec Docker Compose 
-- Vaultwarden accessible en HTTPS via Nginx Proxy Manager 
-- inscriptions publiques désactivées après création du compte principal 
-- interface admin protégée par un token 
-- Vaultwarden non exposé directement sur Internet 
-- Vaultwarden ajouté dans Homepage et Uptime Kuma
-- sécurisation système de la VM avec UFW 
-- SSH limité à l'adresse IP administrateur 
-- fail2ban actif pour protéger SSH 
-- durcissement SSH appliqué 
-- rpcbind désactivé 
-- seuls les ports 22, 80 et 443 sont nécessaires
-- sauvegardes automatisées des volumes Docker 
-- timer systemd quotidien 
-- script de test de restauration 
-- archives conservées dans `/opt/backups/docker-secure-platform`
 ---
 
 ## Stack technique
@@ -82,81 +37,57 @@ La plateforme doit permettre de démontrer :
 - Nginx Proxy Manager
 - DuckDNS
 - Let's Encrypt
-- Git / GitHub
+- Portainer
+- Uptime Kuma
+- Homepage
+- Vaultwarden
+- UFW
+- fail2ban
+- systemd timers
+- GitHub Actions
 
 ---
 
-### Portainer
+## Architecture
 
-Portainer est déployé derrière Nginx Proxy Manager.
+La plateforme est hébergée sur une VM Oracle Cloud publique.
 
-Il est accessible via :
+Les services applicatifs ne sont pas exposés directement sur Internet. Ils sont accessibles uniquement via Nginx Proxy Manager en HTTPS.
 
-```text
-https://frikzai-portainer.duckdns.org
+```mermaid
+flowchart TD
+    User["Utilisateur / Administrateur"] -->|HTTPS 443| NPM["Nginx Proxy Manager"]
+    Admin["Administrateur"] -->|SSH 22| VM["VM Oracle Cloud Ubuntu"]
+
+    subgraph VM["VM Oracle Cloud"]
+        Docker["Docker Engine"]
+        NPM["Nginx Proxy Manager"]
+        Portainer["Portainer"]
+        Kuma["Uptime Kuma"]
+        Home["Homepage"]
+        Vault["Vaultwarden"]
+        Backup["Backups systemd"]
+    end
+
+    NPM --> Portainer
+    NPM --> Kuma
+    NPM --> Home
+    NPM --> Vault
+    Backup --> Docker
 ```
 
----
-
-### Uptime Kuma
-
-Uptime Kuma est déployé derrière Nginx Proxy Manager.
-
-Il est accessible via :
-
-```text
-https://frikzai-uptime.duckdns.org
-```
-
----
+```md
+## Aperçu
 
 ### Homepage
 
-Homepage est déployé derrière Nginx Proxy Manager.
+![Homepage](docs/screenshots/homepage.png)
 
-Il est accessible via :
+### Uptime Kuma
 
-```text
-https://frikzai-home.duckdns.org
-```
+![Uptime Kuma](docs/screenshots/uptime-kuma.png)
 
----
+### Portainer
 
-### Vaultwarden
+![Portainer](docs/screenshots/portainer.png)
 
-Vaultwarden est déployé derrière Nginx Proxy Manager.
-
-Il est accessible via :
-
-```text
-https://frikzai-vault.duckdns.org
-```
-
----
-
-## Sécurité système
-
-La VM est sécurisée avec plusieurs couches :
-
-- Security List Oracle Cloud 
-- firewall local UFW 
-- SSH par clé uniquement 
-- connexion root désactivée 
-- authentification par mot de passe désactivée 
-- fail2ban activé sur SSH 
-- port 81 fermé après configuration de Nginx Proxy Manager 
-- services applicatifs accessibles uniquement via HTTPS
-
----
-
-## Sauvegardes
-
-Les données persistantes Docker sont sauvegardées automatiquement.
-
-Dossier sauvegardé :
-
-```text
-/opt/docker-secure-platform/data/
-```
-
----
