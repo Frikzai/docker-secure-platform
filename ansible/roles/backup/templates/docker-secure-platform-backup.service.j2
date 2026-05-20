@@ -1,0 +1,8 @@
+[Unit]
+Description=Docker Secure Platform backup
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+ExecStart=/opt/docker-secure-platform/scripts/backup.sh

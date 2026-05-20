@@ -1,0 +1,66 @@
+---
+- name: Créer le dossier des scripts applicatifs
+  ansible.builtin.file:
+    path: /opt/docker-secure-platform/scripts
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: "0755"
+  become: true
+
+- name: Créer le dossier de sauvegarde
+  ansible.builtin.file:
+    path: /opt/backups/docker-secure-platform
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: "0755"
+  become: true
+
+- name: Copier le script de sauvegarde
+  ansible.builtin.copy:
+    src: ../../../../scripts/backup.sh
+    dest: /opt/docker-secure-platform/scripts/backup.sh
+    owner: ubuntu
+    group: ubuntu
+    mode: "0755"
+  become: true
+
+- name: Copier le script de test de restauration
+  ansible.builtin.copy:
+    src: ../../../../scripts/restore_test.sh
+    dest: /opt/docker-secure-platform/scripts/restore_test.sh
+    owner: ubuntu
+    group: ubuntu
+    mode: "0755"
+  become: true
+
+- name: Installer le service systemd de backup
+  ansible.builtin.template:
+    src: docker-secure-platform-backup.service.j2
+    dest: /etc/systemd/system/docker-secure-platform-backup.service
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+
+- name: Installer le timer systemd de backup
+  ansible.builtin.template:
+    src: docker-secure-platform-backup.timer.j2
+    dest: /etc/systemd/system/docker-secure-platform-backup.timer
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+
+- name: Recharger systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
+  become: true
+
+- name: Activer et démarrer le timer de backup
+  ansible.builtin.systemd:
+    name: docker-secure-platform-backup.timer
+    state: started
+    enabled: true
+  become: true

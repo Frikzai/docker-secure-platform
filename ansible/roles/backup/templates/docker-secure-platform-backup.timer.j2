@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Docker Secure Platform backup daily
+
+[Timer]
+OnCalendar=*-*-* 03:00:00
+Persistent=true
+Unit=docker-secure-platform-backup.service
+
+[Install]
+WantedBy=timers.target

@@ -63,6 +63,10 @@ La plateforme doit permettre de démontrer :
 - durcissement SSH appliqué 
 - rpcbind désactivé 
 - seuls les ports 22, 80 et 443 sont nécessaires
+- sauvegardes automatisées des volumes Docker 
+- timer systemd quotidien 
+- script de test de restauration 
+- archives conservées dans `/opt/backups/docker-secure-platform`
 ---
 
 ## Stack technique
@@ -140,5 +144,17 @@ La VM est sécurisée avec plusieurs couches :
 - fail2ban activé sur SSH 
 - port 81 fermé après configuration de Nginx Proxy Manager 
 - services applicatifs accessibles uniquement via HTTPS
+
+---
+
+## Sauvegardes
+
+Les données persistantes Docker sont sauvegardées automatiquement.
+
+Dossier sauvegardé :
+
+```text
+/opt/docker-secure-platform/data/
+```
 
 ---
