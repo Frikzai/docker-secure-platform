@@ -14,14 +14,14 @@ Le but est de déployer une VM Oracle Cloud qui héberge plusieurs services Dock
 
 La plateforme doit permettre de démontrer :
 
-- l'administration d'une VM Linux publique ;
-- l'installation automatisée de Docker avec Ansible ;
-- l'utilisation de Docker Compose ;
-- la mise en place d'un reverse proxy avec Nginx Proxy Manager ;
-- la gestion de certificats HTTPS avec Let's Encrypt ;
-- la configuration DNS avec DuckDNS ;
-- la sécurisation des ports exposés ;
-- la préparation d'une future supervision et sauvegarde.
+- l'administration d'une VM Linux publique 
+- l'installation automatisée de Docker avec Ansible 
+- l'utilisation de Docker Compose 
+- la mise en place d'un reverse proxy avec Nginx Proxy Manager 
+- la gestion de certificats HTTPS avec Let's Encrypt 
+- la configuration DNS avec DuckDNS 
+- la sécurisation des ports exposés 
+- la préparation d'une future supervision et sauvegarde
 
 ---
 
@@ -29,16 +29,19 @@ La plateforme doit permettre de démontrer :
 
 À ce stade, les éléments suivants sont fonctionnels :
 
-- VM Oracle Cloud Free Tier créée avec Terraform ;
-- accès SSH opérationnel ;
-- Docker installé via Ansible ;
-- Docker Compose installé ;
-- dossier applicatif `/opt/docker-secure-platform` créé ;
-- Nginx Proxy Manager déployé avec Docker Compose ;
-- sous-domaine DuckDNS configuré pour Nginx Proxy Manager ;
-- accès HTTPS à Nginx Proxy Manager fonctionnel ;
-- port d'administration `81` commenté côté Terraform après configuration.
-
+- VM Oracle Cloud Free Tier créée avec Terraform 
+- accès SSH opérationnel 
+- Docker installé via Ansible 
+- Docker Compose installé 
+- dossier applicatif `/opt/docker-secure-platform` créé 
+- Nginx Proxy Manager déployé avec Docker Compose 
+- sous-domaine DuckDNS configuré pour Nginx Proxy Manager 
+- accès HTTPS à Nginx Proxy Manager fonctionnel 
+- port d'administration `81` commenté côté Terraform après configuration
+- Portainer déployé avec Docker Compose 
+- Portainer accessible en HTTPS via Nginx Proxy Manager 
+- Portainer non exposé directement sur Internet 
+- gestion Docker accessible depuis une interface web sécurisée
 ---
 
 ## Stack technique
@@ -55,3 +58,13 @@ La plateforme doit permettre de démontrer :
 - Git / GitHub
 
 ---
+
+### Portainer
+
+Portainer est déployé derrière Nginx Proxy Manager.
+
+Il est accessible via :
+
+```text
+https://frikzai-portainer.duckdns.org
+```
