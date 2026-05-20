@@ -1,0 +1,15 @@
+---
+title: Docker Secure Platform
+theme: dark
+color: slate
+language: fr
+target: _blank
+hideVersion: true
+
+layout:
+  Administration:
+    style: row
+    columns: 2
+  Supervision:
+    style: row
+    columns: 2

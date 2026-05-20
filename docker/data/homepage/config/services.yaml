@@ -1,0 +1,17 @@
+---
+- Administration:
+    - Nginx Proxy Manager:
+        href: https://frikzai-npm.duckdns.org
+        description: Reverse proxy et certificats HTTPS
+        icon: nginx-proxy-manager.png
+
+    - Portainer:
+        href: https://frikzai-portainer.duckdns.org
+        description: Gestion de Docker
+        icon: portainer.png
+
+- Supervision:
+    - Uptime Kuma:
+        href: https://frikzai-uptime.duckdns.org
+        description: Supervision des services
+        icon: uptime-kuma.png

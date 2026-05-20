@@ -1,0 +1,13 @@
+---
+- Documentation:
+    - GitHub Repository:
+        - abbr: GH
+          href: https://github.com/Frikzai/docker-secure-platform
+
+    - Oracle Cloud:
+        - abbr: OCI
+          href: https://cloud.oracle.com
+
+    - DuckDNS:
+        - abbr: DNS
+          href: https://www.duckdns.org

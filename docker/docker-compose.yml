@@ -38,6 +38,19 @@ services:
     networks:
       - proxy
 
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    restart: unless-stopped
+    environment:
+      TZ: "${TZ}"
+      HOMEPAGE_ALLOWED_HOSTS: "frikzai-home.duckdns.org"
+    volumes:
+      - "${HOMEPAGE_CONFIG_PATH}:/app/config"
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - proxy
+
 networks:
   proxy:
     name: proxy
