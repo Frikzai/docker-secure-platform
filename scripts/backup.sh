@@ -11,14 +11,14 @@ ARCHIVE_NAME="${APP_NAME}_${DATE}.tar.gz"
 ARCHIVE_PATH="${BACKUP_DIR}/${ARCHIVE_NAME}"
 LOG_FILE="${BACKUP_DIR}/backup.log"
 
+mkdir -p "${BACKUP_DIR}"
+
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] Starting backup..." | tee -a "${LOG_FILE}"
 
 if [ ! -d "${DATA_DIR}" ]; then
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] ERROR: data directory not found: ${DATA_DIR}" | tee -a "${LOG_FILE}"
   exit 1
 fi
-
-mkdir -p "${BACKUP_DIR}"
 
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] Creating archive: ${ARCHIVE_PATH}" | tee -a "${LOG_FILE}"
 
