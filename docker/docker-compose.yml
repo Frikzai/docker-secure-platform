@@ -51,6 +51,20 @@ services:
     networks:
       - proxy
 
+  homelab-portal:
+    image: ghcr.io/frikzai/docker-secure-platform/homelab-portal:latest
+    container_name: homelab-portal
+    restart: unless-stopped
+    environment:
+      TZ: "${TZ}"
+      BACKUP_DIR: "${HOMELAB_PORTAL_BACKUP_DIR}"
+      CHECK_TIMEOUT: "${HOMELAB_PORTAL_CHECK_TIMEOUT}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /opt/backups/docker-secure-platform:/backups:ro
+    networks:
+      - proxy
+
   vaultwarden:
     image: vaultwarden/server:latest
     container_name: vaultwarden

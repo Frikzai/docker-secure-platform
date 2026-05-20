@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ app_name }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <main class="container">
+        <header class="header">
+            <div>
+                <p class="eyebrow">Docker Secure Platform</p>
+                <h1>{{ app_name }}</h1>
+                <p class="subtitle">
+                    Portail interactif de supervision et d'accès aux services auto-hébergés.
+                </p>
+            </div>
+            <div class="header-card">
+                <span class="label">Hôte</span>
+                <strong>{{ system.hostname }}</strong>
+                <span class="small">Mis à jour : {{ system.generated_at }}</span>
+            </div>
+        </header>
+
+        <section class="stats-grid">
+            <article class="stat-card">
+                <span class="label">Conteneurs actifs</span>
+                <strong>
+                    {% if docker.running is not none %}
+                        {{ docker.running }}
+                    {% else %}
+                        Indisponible
+                    {% endif %}
+                </strong>
+                <span class="small">Docker Engine</span>
+            </article>
+
+            <article class="stat-card">
+                <span class="label">Disque utilisé</span>
+                <strong>{{ disk.percent }}%</strong>
+                <span class="small">{{ disk.used_gb }} Go / {{ disk.total_gb }} Go</span>
+            </article>
+
+            <article class="stat-card">
+                <span class="label">Dernier backup</span>
+                {% if backup.found %}
+                    <strong>{{ backup.size_mb }} Mo</strong>
+                    <span class="small">{{ backup.date }}</span>
+                {% else %}
+                    <strong>Aucun</strong>
+                    <span class="small">Aucune archive trouvée</span>
+                {% endif %}
+            </article>
+        </section>
+
+        <section class="section">
+            <div class="section-title">
+                <h2>Services</h2>
+                <p>État HTTP des services exposés via Nginx Proxy Manager.</p>
+            </div>
+
+            <div class="services-grid">
+                {% for service in services %}
+                <a class="service-card" href="{{ service.url }}" target="_blank" rel="noopener noreferrer">
+                    <div class="service-header">
+                        <div>
+                            <h3>{{ service.name }}</h3>
+                            <span>{{ service.category }}</span>
+                        </div>
+
+                        {% if service.status == "UP" %}
+                            <span class="badge up">UP</span>
+                        {% else %}
+                            <span class="badge down">DOWN</span>
+                        {% endif %}
+                    </div>
+
+                    <p>{{ service.description }}</p>
+
+                    <div class="service-footer">
+                        <span>{{ service.url }}</span>
+                        {% if service.status_code %}
+                            <span>HTTP {{ service.status_code }}</span>
+                        {% else %}
+                            <span>Pas de réponse</span>
+                        {% endif %}
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-title">
+                <h2>Conteneurs Docker</h2>
+                <p>Liste des conteneurs actuellement actifs.</p>
+            </div>
+
+            <div class="container-list">
+                {% if docker.containers %}
+                    {% for container in docker.containers %}
+                        <span>{{ container }}</span>
+                    {% endfor %}
+                {% else %}
+                    <span>Aucune donnée disponible</span>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+</body>
+</html>
