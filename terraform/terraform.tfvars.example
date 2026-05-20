@@ -1,0 +1,17 @@
+tenancy_ocid      = "ocid1.tenancy.oc1..xxxxxxxx"
+user_ocid         = "ocid1.user.oc1..xxxxxxxx"
+fingerprint       = "xx:xx:xx:xx:xx:xx:xx:xx"
+private_key_path  = "/home/user/.oci/oci_api_key.pem"
+region            = "eu-marseille-1"
+compartment_ocid  = "ocid1.compartment.oc1..xxxxxxxx"
+
+project_name = "docker-secure-platform"
+environment  = "dev"
+
+admin_public_ip_cidr = "X.X.X.X/32"
+ssh_public_key_path  = "/home/user/.ssh/docker_platform.pub"
+
+vcn_cidr           = "10.10.0.0/16"
+public_subnet_cidr = "10.10.1.0/24"
+
+instance_shape = "VM.Standard.E2.1.Micro"
