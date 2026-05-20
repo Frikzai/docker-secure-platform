@@ -36,9 +36,9 @@ SERVICES = [
         "category": "Supervision",
     },
     {
-        "name": "Homepage",
+        "name": "Homelab Portal",
         "url": "https://frikzai-home.duckdns.org",
-        "description": "Dashboard actuel",
+        "description": "Portail interactif personalisé",
         "category": "Dashboard",
     },
     {
