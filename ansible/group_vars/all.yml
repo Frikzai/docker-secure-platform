@@ -1,0 +1,20 @@
+---
+admin_user: ubuntu
+
+docker_app_dir: /opt/docker-secure-platform
+
+base_packages:
+  - ca-certificates
+  - curl
+  - gnupg
+  - lsb-release
+  - apt-transport-https
+  - software-properties-common
+  - git
+  - unzip
+  - htop
+  - vim
+  - jq
+
+docker_users:
+  - ubuntu

@@ -1,0 +1,6 @@
+---
+- name: Préparation de la plateforme Docker sécurisée
+  hosts: docker_hosts
+  become: true
+  roles:
+    - docker

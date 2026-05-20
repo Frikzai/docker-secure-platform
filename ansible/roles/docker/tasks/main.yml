@@ -1,0 +1,103 @@
+---
+- name: Mettre à jour le cache apt
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  become: true
+
+- name: Installer les paquets de base
+  ansible.builtin.apt:
+    name: "{{ base_packages }}"
+    state: present
+  become: true
+
+- name: Créer le dossier des keyrings apt
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+  become: true
+
+- name: Télécharger la clé GPG officielle Docker
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /etc/apt/keyrings/docker.asc
+    mode: "0644"
+  become: true
+
+- name: Ajouter le dépôt Docker
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/docker.list
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu jammy stable
+  become: true
+
+- name: Mettre à jour le cache apt après ajout du dépôt Docker
+  ansible.builtin.apt:
+    update_cache: true
+  become: true
+
+- name: Installer Docker Engine et Docker Compose
+  ansible.builtin.apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+  become: true
+
+- name: Activer et démarrer Docker
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+  become: true
+
+- name: Ajouter les utilisateurs au groupe docker
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: docker
+    append: true
+  loop: "{{ docker_users }}"
+  become: true
+
+- name: Créer le dossier applicatif Docker
+  ansible.builtin.file:
+    path: "{{ docker_app_dir }}"
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: "0755"
+  become: true
+
+- name: Créer le dossier des volumes Docker
+  ansible.builtin.file:
+    path: "{{ docker_app_dir }}/data"
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: "0755"
+  become: true
+
+- name: Vérifier la version Docker
+  ansible.builtin.command: docker --version
+  register: docker_version
+  changed_when: false
+
+- name: Afficher la version Docker
+  ansible.builtin.debug:
+    var: docker_version.stdout
+
+- name: Vérifier la version Docker Compose
+  ansible.builtin.command: docker compose version
+  register: docker_compose_version
+  changed_when: false
+
+- name: Afficher la version Docker Compose
+  ansible.builtin.debug:
+    var: docker_compose_version.stdout
