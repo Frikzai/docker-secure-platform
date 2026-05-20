@@ -51,6 +51,12 @@ La plateforme doit permettre de démontrer :
 - dashboard centralisant les liens vers les services 
 - Homepage supervisé avec Uptime Kuma 
 - Homepage non exposé directement sur Internet
+- Vaultwarden déployé avec Docker Compose 
+- Vaultwarden accessible en HTTPS via Nginx Proxy Manager 
+- inscriptions publiques désactivées après création du compte principal 
+- interface admin protégée par un token 
+- Vaultwarden non exposé directement sur Internet 
+- Vaultwarden ajouté dans Homepage et Uptime Kuma
 ---
 
 ## Stack technique
@@ -100,6 +106,18 @@ Il est accessible via :
 
 ```text
 https://frikzai-home.duckdns.org
+```
+
+---
+
+### Vaultwarden
+
+Vaultwarden est déployé derrière Nginx Proxy Manager.
+
+Il est accessible via :
+
+```text
+https://frikzai-vault.duckdns.org
 ```
 
 ---

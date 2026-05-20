@@ -15,3 +15,9 @@
         href: https://frikzai-uptime.duckdns.org
         description: Supervision des services
         icon: uptime-kuma.png
+
+- Sécurité:
+    - Vaultwarden:
+        href: https://frikzai-vault.duckdns.org
+        description: Gestionnaire de mots de passe auto-hébergé
+        icon: vaultwarden.png
