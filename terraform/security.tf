@@ -45,17 +45,17 @@ resource "oci_core_security_list" "public" {
     description = "HTTPS public access"
   }
 
-  ingress_security_rules {
-    protocol = "6"
-    source   = var.admin_public_ip_cidr
+#  ingress_security_rules {
+#    protocol = "6"
+#    source   = var.admin_public_ip_cidr
+#
+#    tcp_options {
+#      min = 81
+#      max = 81
+#    }
+#
+#    description = "Nginx Proxy Manager admin panel from admin IP"
+#  }
 
-    tcp_options {
-      min = 81
-      max = 81
-    }
-
-    description = "Nginx Proxy Manager admin panel from admin IP"
-  }
-
-  freeform_tags = local.common_tags
-}
+#  freeform_tags = local.common_tags
+#}
