@@ -36,12 +36,6 @@ SERVICES = [
         "category": "Supervision",
     },
     {
-        "name": "Homelab Portal",
-        "url": "https://frikzai-home.duckdns.org",
-        "description": "Portail interactif personalisé",
-        "category": "Dashboard",
-    },
-    {
         "name": "Vaultwarden",
         "url": "https://frikzai-vault.duckdns.org",
         "description": "Gestionnaire de mots de passe",
