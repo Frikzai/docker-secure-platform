@@ -37,5 +37,5 @@ jobs:
           context: ./apps/homelab-portal
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/docker-secure-platform/homelab-portal:latest
-            ghcr.io/${{ github.repository_owner }}/docker-secure-platform/homelab-portal:${{ github.sha }}
+              ghcr.io/frikzai/docker-secure-platform/homelab-portal:latest
+              ghcr.io/frikzai/docker-secure-platform/homelab-portal:${{ github.sha }}
