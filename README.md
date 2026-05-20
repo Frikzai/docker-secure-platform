@@ -1,5 +1,7 @@
 # Docker Secure Platform
 
+![CI](https://github.com/Frikzai/docker-secure-platform/actions/workflows/ci.yml/badge.svg)
+
 Plateforme Docker sécurisée déployée sur Oracle Cloud Free Tier.
 
 L'objectif du projet est de mettre en place une plateforme auto-hébergée basée sur Docker, avec un reverse proxy HTTPS, une exposition contrôlée des services, une supervision applicative et une stratégie de sauvegarde.
