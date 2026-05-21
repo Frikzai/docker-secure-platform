@@ -45,6 +45,8 @@ Le projet démontre :
 - fail2ban
 - systemd timers
 - GitHub Actions
+- Python
+- CTF Lab privé
 
 ---
 ## Homelab Portal
@@ -77,6 +79,39 @@ Il affiche :
 
 Le service est conteneurisé avec Docker et exposé uniquement via Nginx Proxy Manager.
 
+## CTF Lab
+
+Le projet inclut une section **CTF Lab** intégrée au Homelab Portal.
+
+L'objectif est de préparer un espace privé dédié à des challenges de cybersécurité simples, pédagogiques et isolés.
+
+Pour l'instant, aucun challenge vulnérable n'est exposé publiquement. La section CTF Lab sert à présenter les futurs challenges prévus.
+
+Challenges prévus :
+
+| Challenge | Catégorie | Difficulté | Statut |
+|---|---|---|---|
+| Linux Permissions | Linux | Easy | Planned |
+| Log Analysis | Blue Team | Easy | Planned |
+| Web Basics | Web | Easy | Planned |
+| Docker Investigation | Docker | Medium | Planned |
+
+La section CTF Lab est volontairement conçue comme un environnement privé. Les futurs challenges devront être isolés dans un réseau Docker dédié afin d'éviter tout impact sur les services principaux de la plateforme.
+
+Objectifs pédagogiques :
+
+- pratiquer les bases Linux 
+- analyser des logs système 
+- comprendre des comportements web simples 
+- manipuler des environnements Docker isolés 
+- documenter des scénarios de cybersécurité de manière contrôlée
+
+Un endpoint API est également prévu :
+
+```text
+https://frikzai-home.duckdns.org/api/ctf
+```
+
 ## Architecture
 
 La plateforme est hébergée sur une VM Oracle Cloud publique.
@@ -95,6 +130,7 @@ flowchart TD
         Kuma["Uptime Kuma"]
         Home["Homepage"]
         Vault["Vaultwarden"]
+	CTF["CTF Lab<br/>Challenges privés prévus"]
         Backup["Backups systemd"]
     end
 
@@ -102,6 +138,7 @@ flowchart TD
     NPM --> Kuma
     NPM --> Home
     NPM --> Vault
+    Portal --> CTF
     Backup --> Docker
 ```
 

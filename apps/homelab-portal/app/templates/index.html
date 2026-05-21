@@ -23,7 +23,33 @@
                 <span class="small" data-generated-at>Mis à jour : {{ system.generated_at }}</span>
             </div>
         </header>
+	        <section class="section">
+            <div class="section-title">
+                <h2>CTF Lab</h2>
+                <p>Challenges privés prévus pour expérimenter Linux, logs, web et Docker dans un environnement isolé.</p>
+            </div>
 
+            <div class="ctf-grid">
+                {% for challenge in ctf_challenges %}
+                <article class="ctf-card">
+                    <div class="ctf-header">
+                        <div>
+                            <h3>{{ challenge.name }}</h3>
+                            <span>{{ challenge.category }}</span>
+                        </div>
+                        <span class="difficulty">{{ challenge.difficulty }}</span>
+                    </div>
+
+                    <p>{{ challenge.description }}</p>
+
+                    <div class="ctf-footer">
+                        <span class="status planned">{{ challenge.status }}</span>
+                        <span>Private lab</span>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
         <section class="stats-grid">
             <article class="stat-card">
                 <span class="label">Conteneurs actifs</span>

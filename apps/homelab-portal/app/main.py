@@ -1,3 +1,4 @@
+
 import os
 import shutil
 import socket
@@ -43,6 +44,36 @@ SERVICES = [
     },
 ]
 
+CTF_CHALLENGES = [
+    {
+        "name": "Linux Permissions",
+        "category": "Linux",
+        "difficulty": "Easy",
+        "status": "Planned",
+        "description": "Challenge basé sur les permissions Linux, les groupes et la recherche de fichiers.",
+    },
+    {
+        "name": "Log Analysis",
+        "category": "Blue Team",
+        "difficulty": "Easy",
+        "status": "Planned",
+        "description": "Analyse de faux logs SSH pour identifier une IP suspecte et retrouver un flag.",
+    },
+    {
+        "name": "Web Basics",
+        "category": "Web",
+        "difficulty": "Easy",
+        "status": "Planned",
+        "description": "Challenge web simple autour du code source HTML, des headers HTTP et de robots.txt.",
+    },
+    {
+        "name": "Docker Investigation",
+        "category": "Docker",
+        "difficulty": "Medium",
+        "status": "Planned",
+        "description": "Investigation dans un environnement Docker isolé pour retrouver un flag non sensible.",
+    },
+]
 
 app = FastAPI(title=APP_NAME)
 
@@ -175,6 +206,7 @@ async def index(request: Request):
         "request": request,
         "app_name": APP_NAME,
         "services": services_with_status,
+	"ctf_challenges": CTF_CHALLENGES,
         **platform_status,
     }
 
