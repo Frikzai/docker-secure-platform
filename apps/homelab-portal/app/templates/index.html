@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>{{ app_name }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/style.css?v=4">
-    <script src="/static/js/app.js?v=4" defer></script>
+    <link rel="stylesheet" href="/static/css/style.css?v=5">
+    <script src="/static/js/app.js?v=5" defer></script>
 </head>
 <body>
     <main class="container">
@@ -23,28 +23,67 @@
                 <span class="small" data-generated-at>Mis à jour : {{ system.generated_at }}</span>
             </div>
         </header>
-	        <section class="section">
-            <div class="section-title">
-                <h2>CTF Lab</h2>
-                <p>Challenges privés prévus pour expérimenter Linux, logs, web et Docker dans un environnement isolé.</p>
+        <section class="section ctf-section">
+            <div class="ctf-hero">
+                <div>
+                    <p class="eyebrow">Private cyber range</p>
+                    <h2>CTF Lab</h2>
+                    <p>
+                        Espace privé dédié à des challenges pédagogiques autour de Linux,
+                        des logs, du web et de Docker. Les futurs challenges seront isolés
+                        dans un réseau Docker dédié afin de ne pas impacter les services principaux.
+                    </p>
+                </div>
+
+                <div class="ctf-summary">
+                    <div>
+                        <strong>{{ ctf_challenges | length }}</strong>
+                        <span>Challenges prévus</span>
+                    </div>
+                    <div>
+                        <strong>Privé</strong>
+                        <span>Accès contrôlé</span>
+                    </div>
+                    <div>
+                        <strong>Isolé</strong>
+                        <span>Réseau Docker dédié</span>
+                    </div>
+                </div>
             </div>
 
             <div class="ctf-grid">
                 {% for challenge in ctf_challenges %}
                 <article class="ctf-card">
-                    <div class="ctf-header">
+                    <div class="ctf-card-top">
                         <div>
                             <h3>{{ challenge.name }}</h3>
-                            <span>{{ challenge.category }}</span>
+                            <span class="ctf-category">{{ challenge.category }}</span>
                         </div>
-                        <span class="difficulty">{{ challenge.difficulty }}</span>
+
+                        {% if challenge.status == "Planned" %}
+                            <span class="ctf-status planned">{{ challenge.status }}</span>
+                        {% else %}
+                            <span class="ctf-status">{{ challenge.status }}</span>
+                        {% endif %}
                     </div>
 
                     <p>{{ challenge.description }}</p>
 
-                    <div class="ctf-footer">
-                        <span class="status planned">{{ challenge.status }}</span>
-                        <span>Private lab</span>
+                    <div class="ctf-meta">
+                        <span>{{ challenge.category }}</span>
+
+                        {% if challenge.difficulty == "Easy" %}
+                            <span class="difficulty easy">{{ challenge.difficulty }}</span>
+                        {% elif challenge.difficulty == "Medium" %}
+                            <span class="difficulty medium">{{ challenge.difficulty }}</span>
+                        {% else %}
+                            <span class="difficulty">{{ challenge.difficulty }}</span>
+                        {% endif %}
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>                        <span>Private lab</span>
                     </div>
                 </article>
                 {% endfor %}
