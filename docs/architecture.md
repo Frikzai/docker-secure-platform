@@ -2,6 +2,10 @@
 
 Ce projet déploie une plateforme Docker sécurisée sur une VM Oracle Cloud Free Tier.
 
+## Homelab Portal
+
+Le Homelab Portal est une application FastAPI conteneurisée. Elle sert de dashboard principal pour la plateforme et affiche des informations issues des services, de Docker et des sauvegardes locales.
+
 ## Vue d'ensemble
 
 ```mermaid
@@ -17,7 +21,7 @@ flowchart TD
             NPM
             Portainer["Portainer<br/>Gestion Docker"]
             Kuma["Uptime Kuma<br/>Supervision"]
-            Homepage["Homepage<br/>Dashboard"]
+            Homelab Portal["Homelab Portal<br/>Dashboard"]
             Vaultwarden["Vaultwarden<br/>Password Manager"]
             Backups["Backups<br/>/opt/backups/docker-secure-platform"]
         end
@@ -27,12 +31,12 @@ flowchart TD
     Docker --> NPM
     NPM -->|Proxy Host| Portainer
     NPM -->|Proxy Host| Kuma
-    NPM -->|Proxy Host| Homepage
+    NPM -->|Proxy Host| Homelab Portal
     NPM -->|Proxy Host| Vaultwarden
 
     Kuma -->|Checks HTTPS| NPM
     Kuma -->|Checks HTTPS| Portainer
-    Kuma -->|Checks HTTPS| Homepage
+    Kuma -->|Checks HTTPS| Homelab Portal
     Kuma -->|Checks HTTPS| Vaultwarden
 
     Backups -->|Archives .tar.gz| Docker

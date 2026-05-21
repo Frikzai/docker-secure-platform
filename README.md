@@ -39,7 +39,7 @@ Le projet démontre :
 - Let's Encrypt
 - Portainer
 - Uptime Kuma
-- Homepage
+- Homelab Portal FastAPI
 - Vaultwarden
 - UFW
 - fail2ban
@@ -47,6 +47,35 @@ Le projet démontre :
 - GitHub Actions
 
 ---
+## Homelab Portal
+
+Le projet inclut un portail interactif développé avec FastAPI.
+
+Il affiche :
+
+- l'état HTTP des services
+- les liens rapides 
+- le nombre de conteneurs actifs 
+- l'utilisation disque 
+- le dernier backup disponible 
+- la liste des conteneurs Docker actifs
+
+Le service est conteneurisé avec Docker et exposé uniquement via Nginx Proxy Manager.
+
+## Homelab Portal
+
+Le projet inclut un portail interactif développé avec FastAPI.
+
+Il affiche :
+
+- l'état HTTP des services 
+- les liens rapides 
+- le nombre de conteneurs actifs 
+- l'utilisation disque 
+- le dernier backup disponible 
+- la liste des conteneurs Docker actifs
+
+Le service est conteneurisé avec Docker et exposé uniquement via Nginx Proxy Manager.
 
 ## Architecture
 
@@ -76,7 +105,7 @@ flowchart TD
     Backup --> Docker
 ```
 
-```md
+
 ## Aperçu
 
 ### Homepage
