@@ -77,18 +77,9 @@ async function refreshServices() {
     }
 }
 
-async function refreshCtf() {
-    try {
-        await fetchJson("/api/ctf");
-    } catch (error) {
-        console.error("Erreur lors du rafraîchissement du CTF Lab :", error);
-    }
-}
-
 async function refreshAll() {
     await refreshStatus();
     await refreshServices();
-    await refreshCtf();
 }
 
 document.addEventListener("DOMContentLoaded", () => {

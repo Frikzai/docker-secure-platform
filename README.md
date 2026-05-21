@@ -23,7 +23,6 @@ Le projet démontre :
 - la sauvegarde et la restauration de volumes Docker 
 - la sécurisation d'un serveur exposé sur Internet 
 - la création d'un portail web FastAPI 
-- la préparation d'un mini-lab CTF privé 
 - la validation automatique du projet avec GitHub Actions
 
 ---
@@ -45,7 +44,6 @@ Le projet démontre :
 - FastAPI
 - Python
 - Homelab Portal
-- CTF Lab privé
 - UFW
 - fail2ban
 - systemd timers
@@ -66,7 +64,6 @@ Le Homelab Portal sert de dashboard principal et centralise :
 - les liens rapides 
 - les informations Docker 
 - le dernier backup 
-- la section CTF Lab
 
 ```mermaid
 flowchart TD
@@ -80,7 +77,6 @@ flowchart TD
         Kuma["Uptime Kuma"]
         Portal["Homelab Portal FastAPI"]
         Vault["Vaultwarden"]
-        CTF["CTF Lab privé"]
         Backup["Backups systemd"]
     end
 
@@ -88,7 +84,6 @@ flowchart TD
     NPM --> Kuma
     NPM --> Portal
     NPM --> Vault
-    Portal --> CTF
     Backup --> Docker
 
 ## Aperçu

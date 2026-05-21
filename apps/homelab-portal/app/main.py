@@ -8,7 +8,6 @@ from pathlib import Path
 
 import httpx
 from fastapi import FastAPI, Request
-from pydantic import BaseModel
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -45,50 +44,10 @@ SERVICES = [
     },
 ]
 
-CTF_CHALLENGES = [
-    {
-        "name": "Linux Permissions",
-	"slug": "linux-permissions",
-        "category": "Linux",
-        "difficulty": "Easy",
-        "status": "Planned",
-        "description": "Challenge basé sur les permissions Linux, les groupes et la recherche de fichiers.",
-    },
-    {
-        "name": "Log Analysis",
-        "slug": "log-analysis",
-        "category": "Blue Team",
-        "difficulty": "Easy",
-        "status": "Available",
-        "description": "Analyse de faux logs SSH pour identifier une IP suspecte et retrouver un flag.",
-    },
-    {
-        "name": "Web Basics",
-        "slug": "web-basics",
-	"category": "Web",
-        "difficulty": "Easy",
-        "status": "Planned",
-        "description": "Challenge web simple autour du code source HTML, des headers HTTP et de robots.txt.",
-    },
-    {
-        "name": "Docker Investigation",
-        "slug": "docker-investigation",
-	"category": "Docker",
-        "difficulty": "Medium",
-        "status": "Planned",
-        "description": "Investigation dans un environnement Docker isolé pour retrouver un flag non sensible.",
-    },
-]
-
-LOG_ANALYSIS_FLAG = "FLAG{log_analysis_detective}"
-
 app = FastAPI(title=APP_NAME)
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
-
-class FlagSubmission(BaseModel):
-    flag: str
 
 async def check_service(url: str) -> dict:
     try:
@@ -215,7 +174,6 @@ async def index(request: Request):
         "request": request,
         "app_name": APP_NAME,
         "services": services_with_status,
-	"ctf_challenges": CTF_CHALLENGES,
         **platform_status,
     }
 
@@ -232,38 +190,6 @@ async def api_services():
     return {
         "services": await get_services_status(),
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-    }
-
-@app.get("/ctf/log-analysis", response_class=HTMLResponse)
-async def ctf_log_analysis(request: Request):
-    return templates.TemplateResponse(
-        "ctf/log-analysis.html",
-        {
-            "request": request,
-            "app_name": APP_NAME,
-            "challenge": {
-                "name": "Log Analysis",
-                "category": "Blue Team",
-                "difficulty": "Easy",
-                "status": "Available",
-                "file_url": "/static/ctf/log-analysis/auth.log",
-            },
-        },
-    )
-
-@app.post("/api/ctf/log-analysis/validate")
-async def validate_log_analysis_flag(submission: FlagSubmission):
-    submitted_flag = submission.flag.strip()
-
-    if submitted_flag == LOG_ANALYSIS_FLAG:
-        return {
-            "valid": True,
-            "message": "Flag correct. Challenge validé.",
-        }
-
-    return {
-        "valid": False,
-        "message": "Flag incorrect. Analyse encore le fichier auth.log.",
     }
 
 @app.get("/health")

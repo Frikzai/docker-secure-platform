@@ -23,7 +23,7 @@ Ce document décrit les mesures de sécurité mises en place sur la plateforme D
 | 81 | Ancienne interface NPM directe | Fermé après configuration |
 | 9000 | Portainer | Non exposé directement |
 | 3001 | Uptime Kuma | Non exposé directement |
-| 3000 | Homepage | Non exposé directement |
+| 3000 | Homelab Portal | Non exposé directement |
 | 80 interne | Vaultwarden | Non exposé directement |
 
 ## Oracle Cloud Security List
