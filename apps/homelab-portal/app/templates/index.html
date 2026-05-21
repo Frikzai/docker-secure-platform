@@ -122,13 +122,18 @@
             </div>
 
             <div class="ctf-grid">
-                {% for challenge in ctf_challenges %}
-                <article class="ctf-card">
+               	{% for challenge in ctf_challenges %}
+               	{% if challenge.status == "Available" %}
+		<a class="ctf-card" href="/ctf/{{ challenge.slug }}">
+		{% else %}
+		<article class="ctf-card disabled">
+		{% endif %}
                     <div class="ctf-card-top">
                         <div>
                             <h3>{{ challenge.name }}</h3>
                             <span class="ctf-category">{{ challenge.category }}</span>
                         </div>
+
 
                         {% if challenge.status == "Planned" %}
                             <span class="ctf-status planned">{{ challenge.status }}</span>
@@ -136,6 +141,7 @@
                             <span class="ctf-status">{{ challenge.status }}</span>
                         {% endif %}
                     </div>
+
 
                     <p>{{ challenge.description }}</p>
 
@@ -150,7 +156,11 @@
                             <span class="difficulty">{{ challenge.difficulty }}</span>
                         {% endif %}
                     </div>
-                </article>
+               	{% if challenge.status == "Available" %}
+		</a>
+		{% else %}
+		</article>
+		{% endif %}
                 {% endfor %}
             </div>
         </section>

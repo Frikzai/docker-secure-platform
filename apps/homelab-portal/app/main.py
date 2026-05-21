@@ -47,6 +47,7 @@ SERVICES = [
 CTF_CHALLENGES = [
     {
         "name": "Linux Permissions",
+	"slug": "linux-permissions",
         "category": "Linux",
         "difficulty": "Easy",
         "status": "Planned",
@@ -54,21 +55,24 @@ CTF_CHALLENGES = [
     },
     {
         "name": "Log Analysis",
+        "slug": "log-analysis",
         "category": "Blue Team",
         "difficulty": "Easy",
-        "status": "Planned",
+        "status": "Available",
         "description": "Analyse de faux logs SSH pour identifier une IP suspecte et retrouver un flag.",
     },
     {
         "name": "Web Basics",
-        "category": "Web",
+        "slug": "web-basics",
+	"category": "Web",
         "difficulty": "Easy",
         "status": "Planned",
         "description": "Challenge web simple autour du code source HTML, des headers HTTP et de robots.txt.",
     },
     {
         "name": "Docker Investigation",
-        "category": "Docker",
+        "slug": "docker-investigation",
+	"category": "Docker",
         "difficulty": "Medium",
         "status": "Planned",
         "description": "Investigation dans un environnement Docker isolé pour retrouver un flag non sensible.",
@@ -225,6 +229,22 @@ async def api_services():
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
     }
 
+@app.get("/ctf/log-analysis", response_class=HTMLResponse)
+async def ctf_log_analysis(request: Request):
+    return templates.TemplateResponse(
+        "ctf/log-analysis.html",
+        {
+            "request": request,
+            "app_name": APP_NAME,
+            "challenge": {
+                "name": "Log Analysis",
+                "category": "Blue Team",
+                "difficulty": "Easy",
+                "status": "Available",
+                "file_url": "/static/ctf/log-analysis/auth.log",
+            },
+        },
+    )
 
 @app.get("/health")
 async def health():
