@@ -65,6 +65,19 @@ async def check_service(url: str) -> dict:
         }
 
 
+async def get_services_status() -> list[dict]:
+    services_with_status = []
+
+    for service in SERVICES:
+        result = await check_service(service["url"])
+        services_with_status.append({
+            **service,
+            **result,
+        })
+
+    return services_with_status
+
+
 def get_disk_usage() -> dict:
     usage = shutil.disk_usage("/")
     total_gb = round(usage.total / 1024**3, 2)
@@ -143,28 +156,42 @@ def get_system_info() -> dict:
     }
 
 
-@app.get("/", response_class=HTMLResponse)
-async def index(request: Request):
-    services_with_status = []
-
-    for service in SERVICES:
-        result = await check_service(service["url"])
-        services_with_status.append({
-            **service,
-            **result,
-        })
-
-    context = {
-        "request": request,
+def get_platform_status() -> dict:
+    return {
         "app_name": APP_NAME,
-        "services": services_with_status,
         "disk": get_disk_usage(),
         "docker": get_container_count(),
         "backup": get_latest_backup(),
         "system": get_system_info(),
     }
 
+
+@app.get("/", response_class=HTMLResponse)
+async def index(request: Request):
+    services_with_status = await get_services_status()
+    platform_status = get_platform_status()
+
+    context = {
+        "request": request,
+        "app_name": APP_NAME,
+        "services": services_with_status,
+        **platform_status,
+    }
+
     return templates.TemplateResponse("index.html", context)
+
+
+@app.get("/api/status")
+def api_status():
+    return get_platform_status()
+
+
+@app.get("/api/services")
+async def api_services():
+    return {
+        "services": await get_services_status(),
+        "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    }
 
 
 @app.get("/health")

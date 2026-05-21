@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>{{ app_name }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/style.css?v=3">
-    <script src="/static/js/app.js?v=3"></script>
+    <link rel="stylesheet" href="/static/css/style.css?v=4">
+    <script src="/static/js/app.js?v=4" defer></script>
 </head>
 <body>
     <main class="container">
@@ -20,14 +20,14 @@
             <div class="header-card">
                 <span class="label">Hôte</span>
                 <strong>{{ system.hostname }}</strong>
-                <span class="small">Mis à jour : {{ system.generated_at }}</span>
+                <span class="small" data-generated-at>Mis à jour : {{ system.generated_at }}</span>
             </div>
         </header>
 
         <section class="stats-grid">
             <article class="stat-card">
                 <span class="label">Conteneurs actifs</span>
-                <strong>
+                <strong data-docker-running>
                     {% if docker.running is not none %}
                         {{ docker.running }}
                     {% else %}
@@ -39,18 +39,18 @@
 
             <article class="stat-card">
                 <span class="label">Disque utilisé</span>
-                <strong>{{ disk.percent }}%</strong>
-                <span class="small">{{ disk.used_gb }} Go / {{ disk.total_gb }} Go</span>
+                <strong data-disk-percent>{{ disk.percent }}%</strong>
+                <span class="small" data-disk-detail>{{ disk.used_gb }} Go / {{ disk.total_gb }} Go</span>
             </article>
 
             <article class="stat-card">
                 <span class="label">Dernier backup</span>
                 {% if backup.found %}
-                    <strong>{{ backup.size_mb }} Mo</strong>
-                    <span class="small">{{ backup.date }}</span>
+                    <strong data-backup-size>{{ backup.size_mb }} Mo</strong>
+                    <span class="small" data-backup-date>{{ backup.date }}</span>
                 {% else %}
-                    <strong>Aucun</strong>
-                    <span class="small">Aucune archive trouvée</span>
+                    <strong data-backup-size>Aucun</strong>
+                    <span class="small" data-backup-date>Aucune archive trouvée</span>
                 {% endif %}
             </article>
         </section>
@@ -63,7 +63,7 @@
 
             <div class="services-grid">
                 {% for service in services %}
-                <a class="service-card" href="{{ service.url }}" target="_blank" rel="noopener noreferrer">
+                <a class="service-card" href="{{ service.url }}" target="_blank" rel="noopener noreferrer" data-service-name="{{ service.name }}">
                     <div class="service-header">
                         <div>
                             <h3>{{ service.name }}</h3>
@@ -71,9 +71,9 @@
                         </div>
 
                         {% if service.status == "UP" %}
-                            <span class="badge up">UP</span>
+                            <span class="badge up" data-service-badge>UP</span>
                         {% else %}
-                            <span class="badge down">DOWN</span>
+                            <span class="badge down" data-service-badge>DOWN</span>
                         {% endif %}
                     </div>
 
@@ -82,9 +82,9 @@
                     <div class="service-footer">
                         <span>{{ service.url }}</span>
                         {% if service.status_code %}
-                            <span>HTTP {{ service.status_code }}</span>
+                            <span data-service-status-code>HTTP {{ service.status_code }}</span>
                         {% else %}
-                            <span>Pas de réponse</span>
+                            <span data-service-status-code>Pas de réponse</span>
                         {% endif %}
                     </div>
                 </a>
