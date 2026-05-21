@@ -4,13 +4,13 @@
 
 Plateforme Docker sécurisée déployée sur Oracle Cloud Free Tier.
 
-Ce projet met en place une plateforme auto-hébergée avec Docker Compose, Nginx Proxy Manager, HTTPS Let's Encrypt, supervision, sauvegardes automatisées et durcissement système.
+Ce projet met en place une plateforme auto-hébergée avec Docker Compose, Nginx Proxy Manager, HTTPS Let's Encrypt, supervision, sauvegardes automatisées, durcissement système, portail interactif FastAPI et mini-lab CTF privé.
 
 ---
 
 ## Objectif
 
-L'objectif est de déployer une plateforme Docker complète et sécurisée sur une VM publique Oracle Cloud.
+L'objectif est de déployer une plateforme Docker complète, sécurisée et documentée sur une VM publique Oracle Cloud.
 
 Le projet démontre :
 
@@ -22,6 +22,8 @@ Le projet démontre :
 - la supervision de services web 
 - la sauvegarde et la restauration de volumes Docker 
 - la sécurisation d'un serveur exposé sur Internet 
+- la création d'un portail web FastAPI 
+- la préparation d'un mini-lab CTF privé 
 - la validation automatique du projet avec GitHub Actions
 
 ---
@@ -39,84 +41,32 @@ Le projet démontre :
 - Let's Encrypt
 - Portainer
 - Uptime Kuma
-- Homelab Portal FastAPI
 - Vaultwarden
+- FastAPI
+- Python
+- Homelab Portal
+- CTF Lab privé
 - UFW
 - fail2ban
 - systemd timers
 - GitHub Actions
-- Python
-- CTF Lab privé
+- GitHub Container Registry
 
 ---
-## Homelab Portal
-
-Le projet inclut un portail interactif développé avec FastAPI.
-
-Il affiche :
-
-- l'état HTTP des services
-- les liens rapides 
-- le nombre de conteneurs actifs 
-- l'utilisation disque 
-- le dernier backup disponible 
-- la liste des conteneurs Docker actifs
-
-Le service est conteneurisé avec Docker et exposé uniquement via Nginx Proxy Manager.
-
-## Homelab Portal
-
-Le projet inclut un portail interactif développé avec FastAPI.
-
-Il affiche :
-
-- l'état HTTP des services 
-- les liens rapides 
-- le nombre de conteneurs actifs 
-- l'utilisation disque 
-- le dernier backup disponible 
-- la liste des conteneurs Docker actifs
-
-Le service est conteneurisé avec Docker et exposé uniquement via Nginx Proxy Manager.
-
-## CTF Lab
-
-Le projet inclut une section **CTF Lab** intégrée au Homelab Portal.
-
-L'objectif est de préparer un espace privé dédié à des challenges de cybersécurité simples, pédagogiques et isolés.
-
-Pour l'instant, aucun challenge vulnérable n'est exposé publiquement. La section CTF Lab sert à présenter les futurs challenges prévus.
-
-Challenges prévus :
-
-| Challenge | Catégorie | Difficulté | Statut |
-|---|---|---|---|
-| Linux Permissions | Linux | Easy | Planned |
-| Log Analysis | Blue Team | Easy | Planned |
-| Web Basics | Web | Easy | Planned |
-| Docker Investigation | Docker | Medium | Planned |
-
-La section CTF Lab est volontairement conçue comme un environnement privé. Les futurs challenges devront être isolés dans un réseau Docker dédié afin d'éviter tout impact sur les services principaux de la plateforme.
-
-Objectifs pédagogiques :
-
-- pratiquer les bases Linux 
-- analyser des logs système 
-- comprendre des comportements web simples 
-- manipuler des environnements Docker isolés 
-- documenter des scénarios de cybersécurité de manière contrôlée
-
-Un endpoint API est également prévu :
-
-```text
-https://frikzai-home.duckdns.org/api/ctf
-```
 
 ## Architecture
 
 La plateforme est hébergée sur une VM Oracle Cloud publique.
 
 Les services applicatifs ne sont pas exposés directement sur Internet. Ils sont accessibles uniquement via Nginx Proxy Manager en HTTPS.
+
+Le Homelab Portal sert de dashboard principal et centralise :
+
+- l'état des services 
+- les liens rapides 
+- les informations Docker 
+- le dernier backup 
+- la section CTF Lab
 
 ```mermaid
 flowchart TD
@@ -128,26 +78,24 @@ flowchart TD
         NPM["Nginx Proxy Manager"]
         Portainer["Portainer"]
         Kuma["Uptime Kuma"]
-        Home["Homepage"]
+        Portal["Homelab Portal FastAPI"]
         Vault["Vaultwarden"]
-	CTF["CTF Lab<br/>Challenges privés prévus"]
+        CTF["CTF Lab privé"]
         Backup["Backups systemd"]
     end
 
     NPM --> Portainer
     NPM --> Kuma
-    NPM --> Home
+    NPM --> Portal
     NPM --> Vault
     Portal --> CTF
     Backup --> Docker
-```
-
 
 ## Aperçu
 
-### Homepage
+### Homelab-Poral
 
-![Homepage](docs/screenshots/homepage.png)
+![Homepage](docs/screenshots/homelab-portal.png)
 
 ### Uptime Kuma
 
@@ -157,3 +105,6 @@ flowchart TD
 
 ![Portainer](docs/screenshots/portainer.png)
 
+### Nginx Proxy Manager
+
+![Portainer](docs/screenshots/nginx-proxy-manager.png)

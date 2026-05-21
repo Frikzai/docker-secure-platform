@@ -8,6 +8,7 @@ from pathlib import Path
 
 import httpx
 from fastapi import FastAPI, Request
+from pydantic import BaseModel
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -79,11 +80,15 @@ CTF_CHALLENGES = [
     },
 ]
 
+LOG_ANALYSIS_FLAG = "FLAG{log_analysis_detective}"
+
 app = FastAPI(title=APP_NAME)
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 
+class FlagSubmission(BaseModel):
+    flag: str
 
 async def check_service(url: str) -> dict:
     try:
@@ -245,6 +250,21 @@ async def ctf_log_analysis(request: Request):
             },
         },
     )
+
+@app.post("/api/ctf/log-analysis/validate")
+async def validate_log_analysis_flag(submission: FlagSubmission):
+    submitted_flag = submission.flag.strip()
+
+    if submitted_flag == LOG_ANALYSIS_FLAG:
+        return {
+            "valid": True,
+            "message": "Flag correct. Challenge validé.",
+        }
+
+    return {
+        "valid": False,
+        "message": "Flag incorrect. Analyse encore le fichier auth.log.",
+    }
 
 @app.get("/health")
 async def health():
