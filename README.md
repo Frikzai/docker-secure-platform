@@ -85,6 +85,7 @@ flowchart TD
     NPM --> Portal
     NPM --> Vault
     Backup --> Docker
+```
 
 ## Aperçu
 
